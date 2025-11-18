@@ -8,18 +8,20 @@ public abstract class Pokemons {
 	// 		================ ATRIBŪTI ================
 	
 			private int damage, HP, level, defense, maxHP;
-			private String name;
+			private String vards, bilde, tips;
 			
 			
 			// ========== KONSTRUKTORS ==========
 			
-			public Pokemons(int damage, int HP, int level, int defense, int maxHP, String name) {
+			public Pokemons(int damage, int HP, int level, int defense, int maxHP, String vards, String bilde, String tips) {
 				this.damage = damage;
 				this.HP = HP;
 				this.level = level;
 				this.defense = defense;
 				this.maxHP = maxHP;
-				this.name = name;
+				this.vards = vards;
+				this.bilde = bilde;
+				this.tips = tips;
 				
 			}
 			
@@ -46,8 +48,12 @@ public abstract class Pokemons {
 				return maxHP;
 			}
 			
-			public String getName() {
-				return name;
+			public String getVards() {
+				return vards;
+			}
+			
+			public String getBilde() {
+				return bilde;
 			}
 			
 			
@@ -74,7 +80,11 @@ public abstract class Pokemons {
 				this.maxHP = maxHP;
 			}
 			
-			public void setName(String name) {
-				this.name = name;
+			public void setVards(String vards) {
+				this.vards = vards;
+			}
+			
+			public void setBilde(String bilde) {
+				this.bilde = bilde;
 			}
 }
