@@ -414,8 +414,9 @@ public class Pokedatnis {
                 return;
             }
 
-            // Pretinieka uzbrukums
-            SpeletajaPokemons.setHP(SpeletajaPokemons.getHP() - IenaidniekaPokemons.getDamage());
+            IenaidnieksAI();
+//            // Pretinieka uzbrukums
+//            SpeletajaPokemons.setHP(SpeletajaPokemons.getHP() - IenaidniekaPokemons.getDamage());
 
             if (SpeletajaPokemons.getHP() < 0)
                 SpeletajaPokemons.setHP(0);
@@ -559,6 +560,27 @@ public class Pokedatnis {
 
 	public static void updateNaudaLabel(JLabel labelis) {
 		labelis.setText("Nauda: " + nauda);
+	}
+	
+	
+	// ======== AI Ienaidnieks metode ============
+	
+	public static void IenaidnieksAI() {
+		int iespejaUzbrukt = 50;
+		
+		// 50% iespēja ka pretinieks uzbruks vai nu kautko citu darīs.
+		if (iespejaUzbrukt == 50) {
+			int i = rand.nextInt(11);
+			if (i <= 5) {
+				// Pretinieka uzbrukums
+	            SpeletajaPokemons.setHP(SpeletajaPokemons.getHP() - IenaidniekaPokemons.getDamage());
+	            System.out.println("AI izlēma uzbrukt");
+			}else if(i >= 6) {
+				// Pretinieks runās vai neko nedarīs
+				System.out.println("AI izlēma neko nedarīt.");
+			}
+			System.out.println("AI indekss = "+ i);
+		}
 	}
 
 
