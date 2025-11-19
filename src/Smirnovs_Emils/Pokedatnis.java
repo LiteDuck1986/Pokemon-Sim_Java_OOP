@@ -31,6 +31,9 @@ public class Pokedatnis {
 
 	
 	static int nauda = 100; // sākuma nauda
+	
+	// Ienaidnieka AI mainīgie
+	static int iespejaUzbrukt = 50;
 
 
 	public static void main(String[] args) {
@@ -415,8 +418,6 @@ public class Pokedatnis {
             }
 
             IenaidnieksAI();
-//            // Pretinieka uzbrukums
-//            SpeletajaPokemons.setHP(SpeletajaPokemons.getHP() - IenaidniekaPokemons.getDamage());
 
             if (SpeletajaPokemons.getHP() < 0)
                 SpeletajaPokemons.setHP(0);
@@ -566,7 +567,7 @@ public class Pokedatnis {
 	// ======== AI Ienaidnieks metode ============
 	
 	public static void IenaidnieksAI() {
-		int iespejaUzbrukt = 50;
+		
 		
 		// 50% iespēja ka pretinieks uzbruks vai nu kautko citu darīs.
 		if (iespejaUzbrukt == 50) {
@@ -579,6 +580,7 @@ public class Pokedatnis {
 				// Pretinieks runās vai neko nedarīs
 				System.out.println("AI izlēma neko nedarīt.");
 			}
+			// DEBUG lietiņas.
 			System.out.println("AI indekss = "+ i);
 		}
 	}
