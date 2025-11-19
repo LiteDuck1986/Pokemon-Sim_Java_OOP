@@ -347,7 +347,12 @@ public class Pokedatnis {
         CinitiesPoga.addActionListener(e -> {
         	
         	if (SpeletajaPokemons == null) {
-                JOptionPane.showMessageDialog(null, "Tev nav izvēlēts pokemons!");
+                JOptionPane.showMessageDialog(frame, "Tev nav izvēlēts pokemons!");
+                return;
+            }
+        	
+        	if (SpeletajaPokemons.getHP() <= 0) {
+                JOptionPane.showMessageDialog(frame, "Jūsu pokemonam nav HP!");
                 return;
             }
 
@@ -433,13 +438,13 @@ public class Pokedatnis {
             for (Pokemons p : Pokemoni) {
                 if (p.getVards().equals(selected)) {
 
-                    if (nauda < 20) {
-                        JOptionPane.showMessageDialog(null, "Nav pietiekami daudz naudas!");
+                    if (nauda < 25) {
+                        JOptionPane.showMessageDialog(frame, "Nav pietiekami daudz naudas!");
                         return;
                     }
 
                     // atņem naudu par samaksu
-                    nauda -= 20;
+                    nauda -= 25;
 
                     // ārstē
                     p.setHP(p.getMaxHP());
@@ -448,7 +453,7 @@ public class Pokedatnis {
                     infoHP.setText("HP: " + p.getHP() + "/" + p.getMaxHP());
                     updateNaudaLabel(naudaLabel);
 
-                    JOptionPane.showMessageDialog(null, p.getVards() + " tika pilnībā ārstēts!");
+                    JOptionPane.showMessageDialog(frame, p.getVards() + " tika pilnībā ārstēts!");
                 }
             }
         });

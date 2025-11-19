@@ -13,10 +13,4 @@ public class ElektriskaisP extends Pokemons{
 		
 	}
 	
-	@Override
-	public int Uzbrukt(Pokemons pretinieks) {
-	    int dmg = Math.max(1, getDamage() - pretinieks.getDefense() / 2);
-	    pretinieks.setHP(pretinieks.getHP() - dmg);
-	    return dmg;
-	}
 }

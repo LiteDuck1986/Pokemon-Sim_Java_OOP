@@ -26,7 +26,7 @@ public abstract class Pokemons {
 			}
 			
 			// Abstrakta metode (varbūt nakotnē pagaidām es nevaru izdomāt.)
-//			public abstract int Uzbrukt(Pokemons ienaidnieks);
+//			public abstract int Uzbrukt();
 			
 			
 			//=============== GETTER METODES ==================
