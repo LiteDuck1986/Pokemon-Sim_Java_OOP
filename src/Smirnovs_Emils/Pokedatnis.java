@@ -144,7 +144,7 @@ public class Pokedatnis {
         
         JLabel infoParNokert = new JLabel("50%, ka noķers random pokemonu un 50%, ka neko nenoķersi.");
         infoParNokert.setForeground(Color.RED);
-        infoParNokert.setBounds(225, 270, 400, 50);
+        infoParNokert.setBounds(225, 260, 400, 50);
         NokertPanel.add(infoParNokert);
         
         // Pokemonu informacija
@@ -173,6 +173,11 @@ public class Pokedatnis {
         infoLVL.setBounds(300, 170, 300, 30);
         PokemoniPanel.add(infoLVL);
         
+        JLabel infoTips = new JLabel("Tips: ");
+        infoTips.setForeground(Color.BLACK);
+        infoTips.setBounds(300, 200, 300, 30);
+        PokemoniPanel.add(infoTips);
+        
         // Ciņas pokemona info
         JLabel infoVards2 = new JLabel("Vārds: ");
         infoVards2.setForeground(Color.WHITE);
@@ -198,6 +203,11 @@ public class Pokedatnis {
         infoLVL2.setForeground(Color.WHITE);
         infoLVL2.setBounds(300, 170, 300, 30);
         cinasPanel.add(infoLVL2);
+        
+        JLabel infoTips2 = new JLabel("Tips: ");
+        infoTips2.setForeground(Color.WHITE);
+        infoTips2.setBounds(300, 200, 300, 30);
+        cinasPanel.add(infoTips2);
         
         // Noķert paneļa labeļi
         JLabel nokerts = new JLabel("Tu noķēri: ");
@@ -286,6 +296,15 @@ public class Pokedatnis {
         JLabel ienaidniekaBilde = new JLabel();
         ienaidniekaBilde.setBounds(450, 120, 300, 300);
         cinasAktivsPanel.add(ienaidniekaBilde);
+        
+        // Mystery pokemons attēls
+        JLabel mysteryPokemons = new JLabel();
+        mysteryPokemons.setBounds(300, -20, 300, 300);
+        NokertPanel.add(mysteryPokemons);
+        
+        JLabel fonaBilde = new JLabel();
+        fonaBilde.setBounds(250, 140, 800, 650);
+        sakumsPanel.add(fonaBilde);
 
 
         // ============= PANEĻU SAVIENOJUMS ==============
@@ -424,8 +443,11 @@ public class Pokedatnis {
         
         MuzikaMain("src/audio/main.wav");
         
-        
-        
+        // Ielāde fona bildi
+        ImageIcon fonsBilde = new ImageIcon(Pokedatnis.class.getResource("/bildes/fons.png"));
+        Image scaled2 = fonsBilde.getImage().getScaledInstance(300, 200, Image.SCALE_SMOOTH);
+        fonaBilde.setIcon(new ImageIcon(scaled2));
+        fonaBilde.setVisible(true);
         
         //--------------------------------------------------------------------------------------------------------------------------------
         // <===================================== LOĢIKA ====================================>
@@ -456,10 +478,14 @@ public class Pokedatnis {
         
         NokertPoga.addActionListener(e -> {
         	
+        	 
+        	
         	if (nauda < 100) {
                 JOptionPane.showMessageDialog(frame, "Nav pietiekami daudz naudas!");
                 return;
             }
+        	
+        	mysteryPokemons.setVisible(false);
 
             // atņem naudu par samaksu
             nauda -= 100;
@@ -525,11 +551,16 @@ public class Pokedatnis {
         	NokertPoga.setVisible(true);
         	nokerts.setVisible(false);
         	OkPoga.setVisible(false);
+        	mysteryPokemons.setVisible(true);
         	
         });
         
         NokertPanelPoga.addActionListener(e -> {
         	cardLayout.show(galvenaisPanel, "nokert");
+                ImageIcon bilde = new ImageIcon(Pokedatnis.class.getResource("/bildes/MysteryPokemons.png"));
+                Image scaled = bilde.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+                mysteryPokemons.setIcon(new ImageIcon(scaled));
+                mysteryPokemons.setVisible(true);
         });
         
         CinasPoga.addActionListener(e -> {
@@ -820,6 +851,7 @@ public class Pokedatnis {
                     infoDMG.setText("Damage: " + p.getDamage());
                     infoDEF.setText("Defense: " + p.getDefense());
                     infoLVL.setText("Level: " + p.getLevel());
+                    infoTips.setText("Tips: " + p.getTips());
 
                     // Uzrāda attēlu, strādā arī ar JAR failu.
                     if (p.getBilde() != null) {
@@ -845,6 +877,7 @@ public class Pokedatnis {
                     infoDMG2.setText("Damage: " + p.getDamage());
                     infoDEF2.setText("Defense: " + p.getDefense());
                     infoLVL2.setText("Level: " + p.getLevel());
+                    infoTips2.setText("Tips: " + p.getTips());
 
                     // Uzrāda attēlu, strādā arī ar JAR failu.
                     if (p.getBilde() != null) {
