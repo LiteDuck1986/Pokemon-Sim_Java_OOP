@@ -13,6 +13,10 @@ public class Ienaidnieks {
     public int getDamage() {
         return orginalaisP.getDamage();
     }
+    
+    public int getDefense() {
+        return orginalaisP.getDefense();
+    }
 
     public String getVards() {
         return orginalaisP.getVards();

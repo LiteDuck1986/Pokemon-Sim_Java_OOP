@@ -41,6 +41,9 @@ public class Pokedatnis {
 	
 	static int nauda = 100; // sākuma nauda
 	
+	// Damage
+	static int dmg = 0;
+	
 	// Ienaidnieka AI mainīgie
 	static int iespejaUzbrukt = 50;
 
@@ -203,12 +206,12 @@ public class Pokedatnis {
         
         dialogaLabels = new JLabel();
         dialogaLabels.setForeground(Color.WHITE);
-        dialogaLabels.setBounds(350, 200, 200, 30);
+        dialogaLabels.setBounds(300, 200, 200, 30);
         cinasAktivsPanel.add(dialogaLabels);
         
         cinasInfo = new JLabel();
         cinasInfo.setForeground(Color.WHITE);
-        cinasInfo.setBounds(350, 170, 350, 30);
+        cinasInfo.setBounds(310, 415, 400, 30);
         cinasAktivsPanel.add(cinasInfo);
         
         
@@ -327,11 +330,11 @@ public class Pokedatnis {
         ArrayList<Pokemons> Pokemoni = new ArrayList<>();
         // Visi iespējamie pokemoni ko var noķert
         ArrayList<Pokemons> visiIespPokemoni = new ArrayList<>();
-        visiIespPokemoni.add(new UdensP(4, 32, 0, 8, 32, "Squirtle", "/bildes/squirtle.png", "Ūdens", "Hello"));
-        visiIespPokemoni.add(new ElektriskaisP(10, 25, 0, 6, 25, "Electabuzz", "/bildes/electabuzz.png", "Elektrisks", "Pikachu"));
+        visiIespPokemoni.add(new UdensP(18, 32, 0, 14, 32, "Squirtle", "/bildes/squirtle.png", "Ūdens", "Hello"));
+        visiIespPokemoni.add(new ElektriskaisP(19, 27, 0, 12, 27, "Electabuzz", "/bildes/electabuzz.png", "Elektrisks", "Pikachu"));
 
 
-        Pokemons sakumaPokemons = new ElektriskaisP(7, 20, 0, 5, 20, "Pikachu", "/bildes/pikachu.png", "Elektrisks", "Zap zap");
+        Pokemons sakumaPokemons = new ElektriskaisP(23, 21, 0, 6, 21, "Pikachu", "/bildes/pikachu.png", "Elektrisks", "Zap zap");
 
         Pokemoni.add(sakumaPokemons);     
         
@@ -453,13 +456,23 @@ public class Pokedatnis {
         });
         
         UzbruktPoga.addActionListener(e -> {
+        	dialogaLabels.setVisible(false);
         	
-        	
+        	dmg = SpeletajaPokemons.getDamage() - IenaidniekaPokemons.getDefense();
+        	if (dmg < 1)
+        		dmg = 1;
 
             // Spēlētāja uzbrukums
-            IenaidniekaPokemons.HP -= SpeletajaPokemons.getDamage();
-            if (IenaidniekaPokemons.HP < 0) IenaidniekaPokemons.HP = 0;
+            IenaidniekaPokemons.HP -= dmg;
+            
+            
+            if (IenaidniekaPokemons.HP < 0)
+            	IenaidniekaPokemons.HP = 0;
 
+            TekstaEfekts(cinasInfo, SpeletajaPokemons.getVards()+ " uzbruka "+IenaidniekaPokemons.getVards()+" un atņēma "
+            +IenaidniekaPokemons.getVards()+" "+dmg+" HP!", 40);
+            // Uzliekam dmg atpakaļ uz 0
+            dmg = 0;
             
             ParbaudaHP();
             WinOrLoseParbaude();
@@ -475,6 +488,7 @@ public class Pokedatnis {
             IenaidnieksAI();
             ParbaudaHP();
             WinOrLoseParbaude();
+            dmg = 0;
             
             UzbruktPoga.setEnabled(true);
             RunatPoga.setEnabled(true);
@@ -484,40 +498,54 @@ public class Pokedatnis {
         });
         
         RunatPoga.addActionListener(e -> {
-        	PokemonsRuna(dialogaLabels, SpeletajaPokemons, 50);
+        	dialogaLabels.setVisible(false);
         	
-        	UzbruktPoga.setVisible(false);
-            RunatPoga.setVisible(false);
-            NekoPoga.setVisible(false);
+        	TekstaEfekts(cinasInfo, SpeletajaPokemons.getVards()+ " izlēma kautko teikt.", 40);
+        	
+        	UzbruktPoga.setEnabled(false);
+            RunatPoga.setEnabled(false);
+            NekoPoga.setEnabled(false);
             
-
-            IenaidnieksAI();
+            // spēlētāja pokemons runā
+            laiks(2000, () -> {
+            	dialogaLabels.setVisible(true);
+            	PokemonsRuna(dialogaLabels, SpeletajaPokemons, 50);
+					});
+            dialogaLabels.setVisible(false);
             
-            ParbaudaHP();
-            WinOrLoseParbaude();
-            
-            
-            UzbruktPoga.setVisible(true);
-            RunatPoga.setVisible(true);
-            NekoPoga.setVisible(true);
+            laiks(3000, () -> {
+            	
+                IenaidnieksAI();
+                ParbaudaHP();
+                WinOrLoseParbaude();
+                dmg = 0;
+                
+                UzbruktPoga.setEnabled(true);
+                RunatPoga.setEnabled(true);
+                NekoPoga.setEnabled(true);
+                	});
         });
         
         NekoPoga.addActionListener(e -> {
+        	dialogaLabels.setVisible(false);
+        	TekstaEfekts(cinasInfo, SpeletajaPokemons.getVards()+ " izlēma pilnīgi neko nedarīt.", 40);
             
-        	UzbruktPoga.setVisible(false);
-            RunatPoga.setVisible(false);
-            NekoPoga.setVisible(false);
+        	UzbruktPoga.setEnabled(false);
+            RunatPoga.setEnabled(false);
+            NekoPoga.setEnabled(false);
             
 
-            IenaidnieksAI();
-            
-            ParbaudaHP();
-            WinOrLoseParbaude();
-            
-            
-            UzbruktPoga.setVisible(true);
-            RunatPoga.setVisible(true);
-            NekoPoga.setVisible(true);
+            laiks(3000, () -> {
+            	
+                IenaidnieksAI();
+                ParbaudaHP();
+                WinOrLoseParbaude();
+                dmg = 0;
+                
+                UzbruktPoga.setEnabled(true);
+                RunatPoga.setEnabled(true);
+                NekoPoga.setEnabled(true);
+                	});
             
         });
         
@@ -731,6 +759,7 @@ public class Pokedatnis {
 	}
 	
 	public static void WinOrLoseParbaude() {
+		dialogaLabels.setVisible(false);
 	
 			// Uzvara
         if (IenaidniekaPokemons.HP == 0) {
@@ -812,12 +841,30 @@ public class Pokedatnis {
 			int i = rand.nextInt(11);
 			if (i <= 5) {
 				// Pretinieka uzbrukums
-	            SpeletajaPokemons.setHP(SpeletajaPokemons.getHP() - IenaidniekaPokemons.getDamage());
-	            System.out.println("AI izlēma uzbrukt");
+				dmg = IenaidniekaPokemons.getDamage() - SpeletajaPokemons.getDefense();
+	        	if (dmg < 1)
+	        		dmg = 1;
+	        	
+	        	TekstaEfekts(cinasInfo, IenaidniekaPokemons.getVards()+ " uzbruka "+SpeletajaPokemons.getVards()+" un atņēma "
+			            +SpeletajaPokemons.getVards()+" "+dmg+" HP!", 40);
+	        	
+	            SpeletajaPokemons.setHP(SpeletajaPokemons.getHP() - dmg);
+	            System.out.println("AI izlēma uzbrukt, un atņēma speletājam "+dmg+" dmg!");
 			}else if(i >= 6) {
 				// Pretinieks runās vai neko nedarīs
+				if (i < 8) {
+				TekstaEfekts(cinasInfo, IenaidniekaPokemons.getVards()+ " izlēma pilnīgi neko nedarīt.", 40);
+				System.out.println("AI izlēma neko nedarīt.");
+				}else if(i >= 8) {
+					TekstaEfekts(cinasInfo, IenaidniekaPokemons.getVards()+ " izlēma kautko teikt.", 40);
+					System.out.println("AI izlēma runāt.");
+					// Pretinieks runā
+					laiks(2000, () -> {
+						dialogaLabels.setVisible(true);
 				PretinieksRuna(dialogaLabels, IenaidniekaPokemons, 50);
-				System.out.println("AI izlēma runāt.");
+					});
+					dialogaLabels.setVisible(false);
+				}
 			}
 			// DEBUG lietiņas.
 			System.out.println("AI indekss = "+ i);
