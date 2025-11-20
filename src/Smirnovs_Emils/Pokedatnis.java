@@ -35,20 +35,31 @@ public class Pokedatnis {
 	// Ienaidnieka AI mainīgie
 	static int iespejaUzbrukt = 50;
 
+	// Static JLabel, JFRAME, CardLayout, JPanel
+	static JLabel dialogaLabels;
+	static JLabel PokemonaHP;
+	static JLabel IenaidniekaHP;
+	static JLabel naudaLabel;
+	
+	static JFrame frame;
+	
+	static CardLayout cardLayout;
+	
+	static JPanel galvenaisPanel;
 
 	public static void main(String[] args) {
 		
 		// <========================= GUI ==================================>
 
-		JFrame frame = new JFrame("Pokemon simulators");
+		frame = new JFrame("Pokemon simulators");
         frame.setSize(800, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
 
         // ============= CardLayout ==============
-        CardLayout cardLayout = new CardLayout();
-        JPanel galvenaisPanel = new JPanel(cardLayout);
+        cardLayout = new CardLayout();
+        galvenaisPanel = new JPanel(cardLayout);
 
         // ============= Paneļi ==============
         JPanel sakumsPanel = new JPanel(null);
@@ -91,7 +102,7 @@ public class Pokedatnis {
 
         // ======== LABEĻI ========
         
-        JLabel naudaLabel = new JLabel("Nauda: " + nauda);
+        naudaLabel = new JLabel("Nauda: " + nauda);
         naudaLabel.setForeground(Color.YELLOW);
         naudaLabel.setBounds(50, 10, 200, 30);
         PokemoniPanel.add(naudaLabel);
@@ -166,15 +177,20 @@ public class Pokedatnis {
         IenaidniekaVards.setBounds(550, 30, 200, 30);
         cinasAktivsPanel.add(IenaidniekaVards);
 
-        JLabel PokemonaHP = new JLabel();
+        PokemonaHP = new JLabel();
         PokemonaHP.setForeground(Color.WHITE);
         PokemonaHP.setBounds(50, 70, 200, 30);
         cinasAktivsPanel.add(PokemonaHP);
 
-        JLabel IenaidniekaHP = new JLabel();
+        IenaidniekaHP = new JLabel();
         IenaidniekaHP.setForeground(Color.WHITE);
         IenaidniekaHP.setBounds(550, 70, 200, 30);
         cinasAktivsPanel.add(IenaidniekaHP);
+        
+        dialogaLabels = new JLabel();
+        dialogaLabels.setForeground(Color.WHITE);
+        dialogaLabels.setBounds(350, 200, 200, 30);
+        cinasAktivsPanel.add(dialogaLabels);
         
         
         
@@ -251,6 +267,16 @@ public class Pokedatnis {
         UzbruktPoga.setBounds(300, 480, 200, 50);
         cinasAktivsPanel.add(UzbruktPoga);
         
+        // Run poga
+        JButton RunatPoga = new JButton("Runāt");
+        RunatPoga.setBounds(400, 480, 200, 50);
+        cinasAktivsPanel.add(RunatPoga);
+        
+        // Run poga
+        JButton NekoPoga = new JButton("Neko nedarīt");
+        NekoPoga.setBounds(500, 480, 200, 50);
+        cinasAktivsPanel.add(NekoPoga);
+        
         JButton SakumaPoga2 = new JButton("Atpakaļ uz sākumu");
         SakumaPoga2.setBounds(300, 400, 200, 50);
         PokemoniPanel.add(SakumaPoga2);
@@ -281,11 +307,11 @@ public class Pokedatnis {
         ArrayList<Pokemons> Pokemoni = new ArrayList<>();
         // Visi iespējamie pokemoni ko var noķert
         ArrayList<Pokemons> visiIespPokemoni = new ArrayList<>();
-        visiIespPokemoni.add(new UdensP(4, 32, 0, 8, 32, "Squirtle", "/bildes/squirtle.png", "Ūdens"));
-        visiIespPokemoni.add(new ElektriskaisP(10, 25, 0, 6, 25, "Electabuzz", "/bildes/electabuzz.png", "Elektrisks"));
+        visiIespPokemoni.add(new UdensP(4, 32, 0, 8, 32, "Squirtle", "/bildes/squirtle.png", "Ūdens", "Hello"));
+        visiIespPokemoni.add(new ElektriskaisP(10, 25, 0, 6, 25, "Electabuzz", "/bildes/electabuzz.png", "Elektrisks", "Pikachu"));
 
 
-        Pokemons sakumaPokemons = new ElektriskaisP(7, 20, 0, 5, 20, "Pikachu", "/bildes/pikachu.png", "Elektrisks");
+        Pokemons sakumaPokemons = new ElektriskaisP(7, 20, 0, 5, 20, "Pikachu", "/bildes/pikachu.png", "Elektrisks", "Zap zap");
 
         Pokemoni.add(sakumaPokemons);     
         
@@ -399,46 +425,83 @@ public class Pokedatnis {
         });
         
         UzbruktPoga.addActionListener(e -> {
+        	
+        	
 
             // Spēlētāja uzbrukums
             IenaidniekaPokemons.HP -= SpeletajaPokemons.getDamage();
             if (IenaidniekaPokemons.HP < 0) IenaidniekaPokemons.HP = 0;
 
-            IenaidniekaHP.setText("HP: " + IenaidniekaPokemons.HP + "/" + IenaidniekaPokemons.getMaxHP());
-
-            // Uzvara
-            if (IenaidniekaPokemons.HP == 0) {
-                int balva = 50;
-                nauda += balva;
-                updateNaudaLabel(naudaLabel);
-
-                JOptionPane.showMessageDialog(frame, "Tu uzvarēji! Tu ieguvi " + balva + "$");
-                cardLayout.show(galvenaisPanel, "sakums");
-                return;
-            }
-
+            
+            ParbaudaHP();
+            WinOrLoseParbaude();
+            
+            
+            if (IenaidniekaPokemons.HP > 0) {
+            	UzbruktPoga.setEnabled(false);
+                RunatPoga.setEnabled(false);
+                NekoPoga.setEnabled(false);
+                
+            	laiks(3000, () -> {
+            	
             IenaidnieksAI();
-
-            if (SpeletajaPokemons.getHP() < 0)
-                SpeletajaPokemons.setHP(0);
-
-            PokemonaHP.setText("HP: " + SpeletajaPokemons.getHP() + "/" + SpeletajaPokemons.getMaxHP());
-
-            if (SpeletajaPokemons.getHP() == 0) {
-                JOptionPane.showMessageDialog(frame, "Tu zaudēji!");
-                cardLayout.show(galvenaisPanel, "sakums");
+            ParbaudaHP();
+            WinOrLoseParbaude();
+            
+            UzbruktPoga.setEnabled(true);
+            RunatPoga.setEnabled(true);
+            NekoPoga.setEnabled(true);
+            	});
             }
         });
         
+        RunatPoga.addActionListener(e -> {
+        	PokemonsRuna(dialogaLabels, SpeletajaPokemons, 50);
+        	
+        	UzbruktPoga.setVisible(false);
+            RunatPoga.setVisible(false);
+            NekoPoga.setVisible(false);
+            
+
+            IenaidnieksAI();
+            
+            ParbaudaHP();
+            WinOrLoseParbaude();
+            
+            
+            UzbruktPoga.setVisible(true);
+            RunatPoga.setVisible(true);
+            NekoPoga.setVisible(true);
+        });
         
+        NekoPoga.addActionListener(e -> {
+            
+        	UzbruktPoga.setVisible(false);
+            RunatPoga.setVisible(false);
+            NekoPoga.setVisible(false);
+            
+
+            IenaidnieksAI();
+            
+            ParbaudaHP();
+            WinOrLoseParbaude();
+            
+            
+            UzbruktPoga.setVisible(true);
+            RunatPoga.setVisible(true);
+            NekoPoga.setVisible(true);
+            
+        });
+        
+        // Arstēt poga, kas atrodas Pokemoni panelī
         arstetPoga.addActionListener(e -> {
 
-            String selected = (String)pokemonDropdown.getSelectedItem();
-            if (selected == null) return;
+            String izveletais = (String)pokemonDropdown.getSelectedItem();
+            if (izveletais == null) return;
 
             // Meklē izvēlēto pokemonu
             for (Pokemons p : Pokemoni) {
-                if (p.getVards().equals(selected)) {
+                if (p.getVards().equals(izveletais)) {
 
                     if (nauda < 25) {
                         JOptionPane.showMessageDialog(frame, "Nav pietiekami daudz naudas!");
@@ -525,7 +588,10 @@ public class Pokedatnis {
         
     }
 	
+	
 	// ============================= Metodes ===================================
+	
+	
 	
 	public static Pokemons Catch(ArrayList<Pokemons> visiIesp) {
 
@@ -559,8 +625,109 @@ public class Pokedatnis {
 	    return new Ienaidnieks(p);
 	}
 
+	// Update naudas tekstu
 	public static void updateNaudaLabel(JLabel labelis) {
 		labelis.setText("Nauda: " + nauda);
+	}
+	
+	
+	// Teksta animācijas
+	public static void TekstaEfekts(JLabel labelis, String teksts, int ms) {
+		labelis.setText("");	// Notīra esošo tekstu
+	    
+	    new Thread(() -> {
+	        try {
+	            for (int i = 0; i < teksts.length(); i++) {
+	                final int indekss = i;
+	                
+	                javax.swing.SwingUtilities.invokeLater(() -> {
+	                	labelis.setText(teksts.substring(0, indekss + 1));
+	                });
+	                Thread.sleep(ms);
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	    }).start();
+	}
+	
+	public static void PokemonsRuna(JLabel labelis, Pokemons p, int ms) {
+	    String teksts = p.getRunat();// Tekts ko pokemons runās
+	    labelis.setText(""); // notīra iepriekšējo tekstu
+
+	    new Thread(() -> {
+	        try {
+	            for (int i = 0; i < teksts.length(); i++) {
+	                final int indekss = i;
+
+	                // Atjauno tekstu labelī
+	                javax.swing.SwingUtilities.invokeLater(() -> {
+	                	labelis.setText(teksts.substring(0, indekss + 1));
+	                });
+
+	                Thread.sleep(ms);
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	    }).start();
+	}
+	
+	public static void PretinieksRuna(JLabel labelis, Ienaidnieks p, int ms) {
+	    String teksts = p.getRunat();// Tekts ko pokemons runās
+	    labelis.setText(""); // notīra iepriekšējo tekstu
+
+	    new Thread(() -> {
+	        try {
+	            for (int i = 0; i < teksts.length(); i++) {
+	                final int indekss = i;
+
+	                // Atjauno tekstu labelī
+	                javax.swing.SwingUtilities.invokeLater(() -> {
+	                	labelis.setText(teksts.substring(0, indekss + 1));
+	                });
+	                Thread.sleep(ms);
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	    }).start();
+	}
+	 
+	// Laiks metode, pagaida specifisku laiku lai turpinātu kautko
+	public static void laiks(int ms, Runnable turpinat) {
+	    new javax.swing.Timer(ms, e -> {
+	        turpinat.run();
+	        ((javax.swing.Timer)e.getSource()).stop();
+	    }).start();
+	}
+	
+	public static void WinOrLoseParbaude() {
+	
+			// Uzvara
+        if (IenaidniekaPokemons.HP == 0) {
+            int balva = 50;
+            nauda += balva;
+            updateNaudaLabel(naudaLabel);
+
+            JOptionPane.showMessageDialog(frame, "Tu uzvarēji! Tu ieguvi " + balva + "$");
+            cardLayout.show(galvenaisPanel, "sakums");
+            return;
+        }
+            // Zaudē
+        if (SpeletajaPokemons.getHP() == 0) {
+                JOptionPane.showMessageDialog(frame, "Tu zaudēji!");
+                cardLayout.show(galvenaisPanel, "sakums");
+            }
+        }
+        
+	
+	public static void ParbaudaHP() {
+		if (SpeletajaPokemons.getHP() < 0)
+            SpeletajaPokemons.setHP(0);
+		
+		PokemonaHP.setText("HP: " + SpeletajaPokemons.getHP() + "/" + SpeletajaPokemons.getMaxHP());
+		IenaidniekaHP.setText("HP: " + IenaidniekaPokemons.HP + "/" + IenaidniekaPokemons.getMaxHP());
 	}
 	
 	
@@ -578,13 +745,13 @@ public class Pokedatnis {
 	            System.out.println("AI izlēma uzbrukt");
 			}else if(i >= 6) {
 				// Pretinieks runās vai neko nedarīs
-				System.out.println("AI izlēma neko nedarīt.");
+				PretinieksRuna(dialogaLabels, IenaidniekaPokemons, 50);
+				System.out.println("AI izlēma runāt.");
 			}
 			// DEBUG lietiņas.
 			System.out.println("AI indekss = "+ i);
 		}
 	}
-
-
+	
 
 }

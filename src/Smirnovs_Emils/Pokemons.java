@@ -8,12 +8,12 @@ public abstract class Pokemons {
 	// 		================ ATRIBŪTI ================
 	
 			private int damage, HP, level, defense, maxHP;
-			private String vards, bilde, tips;
+			private String vards, bilde, tips, runat;
 			
 			
 			// ========== KONSTRUKTORS ==========
 			
-			public Pokemons(int damage, int HP, int level, int defense, int maxHP, String vards, String bilde, String tips) {
+			public Pokemons(int damage, int HP, int level, int defense, int maxHP, String vards, String bilde, String tips, String runat) {
 				this.damage = damage;
 				this.HP = HP;
 				this.level = level;
@@ -22,12 +22,12 @@ public abstract class Pokemons {
 				this.vards = vards;
 				this.bilde = bilde;
 				this.tips = tips;
+				this.runat = runat;
 				
 			}
 			
 			// Abstrakta metode (varbūt nakotnē pagaidām es nevaru izdomāt.)
 //			public abstract int Uzbrukt();
-			
 			
 			//=============== GETTER METODES ==================
 			
@@ -57,6 +57,10 @@ public abstract class Pokemons {
 			
 			public String getBilde() {
 				return bilde;
+			}
+			
+			public String getRunat() {
+				return runat;
 			}
 			
 			
@@ -89,5 +93,9 @@ public abstract class Pokemons {
 			
 			public void setBilde(String bilde) {
 				this.bilde = bilde;
+			}
+			
+			public void setRunat(String runat) {
+				this.runat = runat;
 			}
 }

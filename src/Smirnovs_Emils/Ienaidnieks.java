@@ -25,5 +25,9 @@ public class Ienaidnieks {
     public int getMaxHP() {
         return orginalaisP.getMaxHP();
     }
+    
+    public String getRunat() {
+        return orginalaisP.getRunat();
+    }
 	
 }
