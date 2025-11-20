@@ -626,6 +626,7 @@ public class Pokedatnis {
         UzbruktPoga.addActionListener(e -> {
         	dialogaLabels.setVisible(false);
         	
+        	
         	dmg = SpeletajaPokemons.getDamage() - IenaidniekaPokemons.getDefense();
         	if (dmg < 1)
         		dmg = 1;
@@ -633,21 +634,25 @@ public class Pokedatnis {
             // Spēlētāja uzbrukums
             IenaidniekaPokemons.HP -= dmg;
             
-            
             if (IenaidniekaPokemons.HP < 0)
             	IenaidniekaPokemons.HP = 0;
             
+            
          // 25% iespēja ka pretinieks tiks paralizēts
-            boolean izlaistPretGajienu = SpeletajaPokemons.SpecialATK();
+            boolean specUzbrukums = SpeletajaPokemons.SpecialATK();
 
-            if (izlaistPretGajienu == false) {
+            // Parastais uzbrukums
+            if (!specUzbrukums) {
             TekstaEfekts(cinasInfo, SpeletajaPokemons.getVards()+ " uzbruka "+IenaidniekaPokemons.getVards()+" un atņēma "
             +IenaidniekaPokemons.getVards()+" "+dmg+" HP!", 40);
             // Uzliekam dmg atpakaļ uz 0
             dmg = 0;
+            
+            ParbaudaHP();
+            WinOrLoseParbaude();
             }
             
-            else if (izlaistPretGajienu == true) {             
+            	else {             
                         UzbruktPoga.setEnabled(false);
                         RunatPoga.setEnabled(false);
                         NekoPoga.setEnabled(false);
@@ -655,28 +660,26 @@ public class Pokedatnis {
                         
                         String tips = SpeletajaPokemons.getTips();
                         
-                        if(tips == "Elektrisks") {
+                        if(tips.equals("Elektrisks")) {
                         TekstaEfekts(cinasInfo,
-                                SpeletajaPokemons.getVards()+" paralizēja "+IenaidniekaPokemons.getVards()+" un atņēma "+dmg+" HP! Pretinieks izlaiž gājienu!", 40);
+                                SpeletajaPokemons.getVards()+" PARALIZĒJA "+IenaidniekaPokemons.getVards()+" un atņēma "+dmg+" HP! Pretinieks izlaiž gājienu!", 40);
                         // Uzliekam dmg atpakaļ uz 0
-                        dmg = 0;
-                        ParbaudaHP();
-                        WinOrLoseParbaude();
                         }
-                        else if(tips == "Ūdens") {
+                        
+                        else if(tips.equals("Ūdens")) {
                         	
                         	int HpBonus = 6;
                         	SpeletajaPokemons.setHP(SpeletajaPokemons.getHP() + HpBonus);
                         	
                         	TekstaEfekts(cinasInfo,
-                                    SpeletajaPokemons.getVards()+" sadziedēja sevi un ieguva +"+HpBonus+" HP! "+IenaidniekaPokemons.getVards()+" zaudēja "+dmg+" HP!", 40);
-                            // Uzliekam dmg atpakaļ uz 0
+                                    SpeletajaPokemons.getVards()+" sadziedēja sevi (+"+HpBonus+" HP!) un nodarīja "+dmg+" HP "+IenaidniekaPokemons.getVards(), 40);
+                        }
+                        
+                        	// Uzliekam dmg atpakaļ uz 0
                             dmg = 0;
                             
-                            IenaidnieksAI();
                             ParbaudaHP();
                             WinOrLoseParbaude();
-                        }
                         
                         laiks(3000, () -> {
                         UzbruktPoga.setEnabled(true);
@@ -684,12 +687,7 @@ public class Pokedatnis {
                         NekoPoga.setEnabled(true);
                         });
                         return;
-            }
-            
-            ParbaudaHP();
-            WinOrLoseParbaude();
-            
-            
+            }         
             
             if (IenaidniekaPokemons.HP > 0) {
             	UzbruktPoga.setEnabled(false);
@@ -1091,8 +1089,9 @@ public class Pokedatnis {
 		
 		
 		// 50% iespēja ka pretinieks uzbruks vai nu kautko citu darīs.
-		if (iespejaUzbrukt == 50) {
+		if (iespejaUzbrukt == 50) { // nez vai gribu turpināt AI iespējas taisīt :-(
 			int i = rand.nextInt(11);
+			// 55% ka AI uzbruks
 			if (i <= 5) {
 				// Pretinieka uzbrukums
 				dmg = IenaidniekaPokemons.getDamage() - SpeletajaPokemons.getDefense();
@@ -1104,11 +1103,14 @@ public class Pokedatnis {
 	        	
 	            SpeletajaPokemons.setHP(SpeletajaPokemons.getHP() - dmg);
 	            System.out.println("AI izlēma uzbrukt, un atņēma speletājam "+dmg+" dmg!");
+	            
+	            // 45% ka AI neko nedarīs vai kautko teiks.
 			}else if(i >= 6) {
-				// Pretinieks runās vai neko nedarīs
+				// 18% ka AI neko nedarīs
 				if (i < 8) {
 				TekstaEfekts(cinasInfo, IenaidniekaPokemons.getVards()+ " izlēma pilnīgi neko nedarīt.", 40);
 				System.out.println("AI izlēma neko nedarīt.");
+				// 27% ka AI kautko teiks
 				}else if(i >= 8) {
 					TekstaEfekts(cinasInfo, IenaidniekaPokemons.getVards()+ " izlēma kautko teikt.", 40);
 					System.out.println("AI izlēma runāt.");
