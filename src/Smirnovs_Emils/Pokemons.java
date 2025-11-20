@@ -27,7 +27,7 @@ public abstract class Pokemons {
 			}
 			
 			// Abstrakta metode (varbūt nakotnē pagaidām es nevaru izdomāt.)
-//			public abstract int Uzbrukt();
+			public abstract boolean SpecialATK();
 			
 			//=============== GETTER METODES ==================
 			
@@ -61,6 +61,10 @@ public abstract class Pokemons {
 			
 			public String getRunat() {
 				return runat;
+			}
+			
+			public String getTips() {
+				return tips;
 			}
 			
 			
@@ -97,5 +101,9 @@ public abstract class Pokemons {
 			
 			public void setRunat(String runat) {
 				this.runat = runat;
+			}
+			
+			public void setTips(String tips) {
+				this.tips = tips;
 			}
 }
