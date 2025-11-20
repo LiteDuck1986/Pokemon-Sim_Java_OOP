@@ -7,9 +7,18 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -40,14 +49,19 @@ public class Pokedatnis {
 	static JLabel PokemonaHP;
 	static JLabel IenaidniekaHP;
 	static JLabel naudaLabel;
+	static JLabel cinasInfo;
 	
 	static JFrame frame;
 	
 	static CardLayout cardLayout;
 	
 	static JPanel galvenaisPanel;
+	
+	// Priekš muzikas
+	private static Clip muzika;
 
 	public static void main(String[] args) {
+		
 		
 		// <========================= GUI ==================================>
 
@@ -192,6 +206,11 @@ public class Pokedatnis {
         dialogaLabels.setBounds(350, 200, 200, 30);
         cinasAktivsPanel.add(dialogaLabels);
         
+        cinasInfo = new JLabel();
+        cinasInfo.setForeground(Color.WHITE);
+        cinasInfo.setBounds(350, 170, 350, 30);
+        cinasAktivsPanel.add(cinasInfo);
+        
         
         
         // ======== Pokemon bildes ========
@@ -294,11 +313,12 @@ public class Pokedatnis {
         arstetPoga.setBounds(50, 350, 200, 40);
         PokemoniPanel.add(arstetPoga);
 
-
-        
         
         frame.add(galvenaisPanel);
         frame.setVisible(true);
+        
+        
+        MuzikaMain("src/audio/main.wav");
         
         
         
@@ -371,9 +391,12 @@ public class Pokedatnis {
         
         CinasPoga.addActionListener(e -> {
         	cardLayout.show(galvenaisPanel, "cinas");
+        	
         });
         
         CinitiesPoga.addActionListener(e -> {
+        	
+        	
         	
         	if (SpeletajaPokemons == null) {
                 JOptionPane.showMessageDialog(frame, "Tev nav izvēlēts pokemons!");
@@ -384,6 +407,9 @@ public class Pokedatnis {
                 JOptionPane.showMessageDialog(frame, "Jūsu pokemonam nav HP!");
                 return;
             }
+        	
+        	StopMuzika("src/audio/main.wav");
+        	MuzikaMain("src/audio/battle.wav");
 
             // Pretinieka pokemons
             IenaidniekaPokemons = randomIenaidnieks(visiIespPokemoni);
@@ -391,8 +417,8 @@ public class Pokedatnis {
             PokemonaVards.setText("Tu: " + SpeletajaPokemons.getVards());
             IenaidniekaVards.setText("Ienaidnieks: " + IenaidniekaPokemons.getVards());
 
-            PokemonaHP.setText("HP: " + SpeletajaPokemons.getHP());
-            IenaidniekaHP.setText("HP: " + IenaidniekaPokemons.HP);
+            PokemonaHP.setText("HP: " + SpeletajaPokemons.getHP()+"/"+SpeletajaPokemons.getMaxHP());
+            IenaidniekaHP.setText("HP: " + IenaidniekaPokemons.HP+"/"+IenaidniekaPokemons.getMaxHP());
             
             if (SpeletajaPokemons.getBilde() != null)
                 speletajaBilde.setIcon(new ImageIcon(Pokedatnis.class.getResource(SpeletajaPokemons.getBilde())));
@@ -400,6 +426,8 @@ public class Pokedatnis {
                 ienaidniekaBilde.setIcon(new ImageIcon(Pokedatnis.class.getResource(IenaidniekaPokemons.getBilde())));
 
         	cardLayout.show(galvenaisPanel, "cinasAktivs");
+        	
+        	TekstaEfekts(cinasInfo, "Pirmais gājiens ir "+SpeletajaPokemons.getVards()+ " ko tu darīsi?", 40);
         	
         });
         
@@ -712,12 +740,16 @@ public class Pokedatnis {
 
             JOptionPane.showMessageDialog(frame, "Tu uzvarēji! Tu ieguvi " + balva + "$");
             cardLayout.show(galvenaisPanel, "sakums");
+            StopMuzika("src/audio/battle.wav");
+            MuzikaMain("src/audio/main.wav");
             return;
         }
             // Zaudē
         if (SpeletajaPokemons.getHP() == 0) {
                 JOptionPane.showMessageDialog(frame, "Tu zaudēji!");
                 cardLayout.show(galvenaisPanel, "sakums");
+                StopMuzika("src/audio/battle.wav");
+                MuzikaMain("src/audio/main.wav");
             }
         }
         
@@ -729,6 +761,45 @@ public class Pokedatnis {
 		PokemonaHP.setText("HP: " + SpeletajaPokemons.getHP() + "/" + SpeletajaPokemons.getMaxHP());
 		IenaidniekaHP.setText("HP: " + IenaidniekaPokemons.HP + "/" + IenaidniekaPokemons.getMaxHP());
 	}
+	
+	
+	// ============= SKAŅAS METODES ==============
+	
+	public static void MuzikaMain(String cels){
+	try {
+		File fails = new File (cels);
+		AudioInputStream ais = AudioSystem.getAudioInputStream(fails);
+		muzika = AudioSystem.getClip();
+		muzika.open(ais);
+		FloatControl gainControl = 
+			    (FloatControl) muzika.getControl(FloatControl.Type.MASTER_GAIN);
+			gainControl.setValue(-20.0f); // Reduce volume by 10 decibels.
+			muzika.loop(Clip.LOOP_CONTINUOUSLY);
+			muzika.start();
+	} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+        e.printStackTrace();
+    }
+	}
+		
+	
+	public static void StopMuzika(String cels){
+		if (muzika != null && muzika.isRunning()) {
+			muzika.stop();
+            muzika.close();
+		}
+	}
+	
+	public static void SFX(String cels) {
+        try {
+            File fails = new File(cels);
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(fails);
+            Clip c = AudioSystem.getClip();
+            c.open(audioStream);
+            c.start(); // vienu reizi spēlē skaņu
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
+    }
 	
 	
 	// ======== AI Ienaidnieks metode ============
