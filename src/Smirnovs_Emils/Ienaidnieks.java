@@ -6,7 +6,7 @@ public class Ienaidnieks {
     public int HP;
     
     public Ienaidnieks(Pokemons p) {
-        this.orginalaisP = p;
+        this.orginalaisP = p; // orģinālais pokemona objekts
         this.HP = p.getMaxHP();  // Cīņu vienmēr sāks ar max HP
     }
 

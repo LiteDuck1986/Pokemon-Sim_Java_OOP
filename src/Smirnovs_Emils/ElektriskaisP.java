@@ -2,6 +2,7 @@ package Smirnovs_Emils;
 
 import java.util.Random;
 
+// Esmu cepts
 public class ElektriskaisP extends Pokemons{
 	
 	static Random rand = new Random();
@@ -10,7 +11,6 @@ public class ElektriskaisP extends Pokemons{
 		private int paralizeIesp = 25; // 25% iespēja
 		private int ladetsLimenis = 0;
 		private final int maxLadets = 3;
-		private int shockDMG = 5;
 		private boolean irUzladets = false; // ja true tad 100% paralīze
 	    
 	    
@@ -21,6 +21,7 @@ public class ElektriskaisP extends Pokemons{
 		
 	}
 
+	// Special uzbrukums
 	@Override
 	public boolean SpecialATK() {
 		if(irUzladets) {

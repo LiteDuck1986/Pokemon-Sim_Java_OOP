@@ -234,7 +234,7 @@ public class Pokedatnis {
         
         cinasInfo = new JLabel();
         cinasInfo.setForeground(Color.WHITE);
-        cinasInfo.setBounds(275, 435, 400, 30);
+        cinasInfo.setBounds(245, 435, 600, 30);
         cinasAktivsPanel.add(cinasInfo);
         
         JLabel PokemonaDEF = new JLabel("DEF: ");
@@ -672,7 +672,7 @@ public class Pokedatnis {
                         	SpeletajaPokemons.setHP(SpeletajaPokemons.getHP() + HpBonus);
                         	
                         	TekstaEfekts(cinasInfo,
-                                    SpeletajaPokemons.getVards()+" sadziedēja sevi (+"+HpBonus+" HP!) un nodarīja "+dmg+" HP "+IenaidniekaPokemons.getVards(), 40);
+                                    SpeletajaPokemons.getVards()+" sadziedēja sevi (+"+HpBonus+" HP!) un atņēma "+dmg+" HP "+IenaidniekaPokemons.getVards(), 40);
                         }
                         
                         	// Uzliekam dmg atpakaļ uz 0
@@ -1084,7 +1084,7 @@ public class Pokedatnis {
 	// ======== AI Ienaidnieks metode ============
 	//--------------------------------------------------------------------------------------------------------------------------------
 	
-	
+	// AI trūkums: AI nevar darīt SpecUzbrukumu..
 	public static void IenaidnieksAI() {
 		
 		
