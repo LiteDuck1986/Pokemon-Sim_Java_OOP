@@ -30,6 +30,10 @@ public class Ienaidnieks {
         return orginalaisP.getMaxHP();
     }
     
+    public int getLevel() {
+        return orginalaisP.getLevel();
+    }
+    
     public String getRunat() {
         return orginalaisP.getRunat();
     }

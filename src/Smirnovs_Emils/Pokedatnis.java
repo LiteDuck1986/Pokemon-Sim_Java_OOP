@@ -3,6 +3,7 @@ package Smirnovs_Emils;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -41,17 +42,18 @@ public class Pokedatnis {
 	
 	static int nauda = 100; // sākuma nauda
 	
-	// Damage
+	// Damage mainīgais
 	static int dmg = 0;
 	
 	// Ienaidnieka AI mainīgie
 	static int iespejaUzbrukt = 50;
 
-	// Static JLabel, JFRAME, CardLayout, JPanel
+	// Static JLabel, JFRAME, CardLayout, JPanel, JButton
 	static JLabel dialogaLabels;
 	static JLabel PokemonaHP;
 	static JLabel IenaidniekaHP;
 	static JLabel naudaLabel;
+	static JLabel naudaLabel2;
 	static JLabel cinasInfo;
 	
 	static JFrame frame;
@@ -60,13 +62,16 @@ public class Pokedatnis {
 	
 	static JPanel galvenaisPanel;
 	
+	static JButton NokertPoga;
+	
 	// Priekš muzikas
 	private static Clip muzika;
 
 	public static void main(String[] args) {
 		
-		
-		// <========================= GUI ==================================>
+		//--------------------------------------------------------------------------------------------------------------------------------
+		// <=========================================== GUI =============================================>
+		//--------------------------------------------------------------------------------------------------------------------------------
 
 		frame = new JFrame("Pokemon simulators");
         frame.setSize(800, 600);
@@ -77,22 +82,24 @@ public class Pokedatnis {
         // ============= CardLayout ==============
         cardLayout = new CardLayout();
         galvenaisPanel = new JPanel(cardLayout);
+        
 
         // ============= Paneļi ==============
         JPanel sakumsPanel = new JPanel(null);
-        sakumsPanel.setBackground(Color.darkGray);
+        sakumsPanel.setBackground(Color.white);
 
         JPanel cinasPanel = new JPanel(null);
         cinasPanel.setBackground(Color.black);
         
         JPanel PokemoniPanel = new JPanel(null);
-        PokemoniPanel.setBackground(Color.gray);
+        PokemoniPanel.setBackground(Color.white);
         
         JPanel NokertPanel = new JPanel(null);
-        NokertPanel.setBackground(Color.darkGray);
+        NokertPanel.setBackground(Color.white);
         
         JPanel cinasAktivsPanel = new JPanel(null);
         cinasAktivsPanel.setBackground(Color.black);
+        
         
      // =================== Dropdown Labeļi ====================
         JLabel IzveleText = new JLabel("Izvēlies Pokemonu:");
@@ -120,33 +127,49 @@ public class Pokedatnis {
         // ======== LABEĻI ========
         
         naudaLabel = new JLabel("Nauda: " + nauda);
-        naudaLabel.setForeground(Color.YELLOW);
+        naudaLabel.setForeground(Color.GREEN);
         naudaLabel.setBounds(50, 10, 200, 30);
         PokemoniPanel.add(naudaLabel);
         
+        naudaLabel2 = new JLabel("Nauda: " + nauda);
+        naudaLabel2.setForeground(Color.GREEN);
+        naudaLabel2.setBounds(50, 10, 200, 30);
+        NokertPanel.add(naudaLabel2);
+        
+        JLabel Nosaukums = new JLabel("Pokemona simulators");
+        Nosaukums.setForeground(Color.BLACK);
+        Nosaukums.setBounds(245, 75, 500, 30);
+        Nosaukums.setFont(new Font("Arial", Font.BOLD, 32));
+        sakumsPanel.add(Nosaukums);
+        
+        JLabel infoParNokert = new JLabel("50%, ka noķers random pokemonu un 50%, ka neko nenoķersi.");
+        infoParNokert.setForeground(Color.RED);
+        infoParNokert.setBounds(225, 270, 400, 50);
+        NokertPanel.add(infoParNokert);
+        
         // Pokemonu informacija
         JLabel infoVards = new JLabel("Vārds: ");
-        infoVards.setForeground(Color.WHITE);
+        infoVards.setForeground(Color.BLACK);
         infoVards.setBounds(300, 50, 300, 30);
         PokemoniPanel.add(infoVards);
 
         JLabel infoHP = new JLabel("HP: ");
-        infoHP.setForeground(Color.WHITE);
+        infoHP.setForeground(Color.BLACK);
         infoHP.setBounds(300, 80, 300, 30);
         PokemoniPanel.add(infoHP);
 
         JLabel infoDMG = new JLabel("Damage: ");
-        infoDMG.setForeground(Color.WHITE);
+        infoDMG.setForeground(Color.BLACK);
         infoDMG.setBounds(300, 110, 300, 30);
         PokemoniPanel.add(infoDMG);
 
         JLabel infoDEF = new JLabel("Defense: ");
-        infoDEF.setForeground(Color.WHITE);
+        infoDEF.setForeground(Color.BLACK);
         infoDEF.setBounds(300, 140, 300, 30);
         PokemoniPanel.add(infoDEF);
 
         JLabel infoLVL = new JLabel("Level: ");
-        infoLVL.setForeground(Color.WHITE);
+        infoLVL.setForeground(Color.BLACK);
         infoLVL.setBounds(300, 170, 300, 30);
         PokemoniPanel.add(infoLVL);
         
@@ -178,8 +201,8 @@ public class Pokedatnis {
         
         // Noķert paneļa labeļi
         JLabel nokerts = new JLabel("Tu noķēri: ");
-        nokerts.setForeground(Color.WHITE);
-        nokerts.setBounds(345, 225, 300, 30);
+        nokerts.setForeground(Color.BLACK);
+        nokerts.setBounds(344, 225, 300, 30);
         NokertPanel.add(nokerts);
         nokerts.setVisible(false);
         
@@ -196,27 +219,48 @@ public class Pokedatnis {
 
         PokemonaHP = new JLabel();
         PokemonaHP.setForeground(Color.WHITE);
-        PokemonaHP.setBounds(50, 70, 200, 30);
+        PokemonaHP.setBounds(50, 55, 200, 30);
         cinasAktivsPanel.add(PokemonaHP);
 
         IenaidniekaHP = new JLabel();
         IenaidniekaHP.setForeground(Color.WHITE);
-        IenaidniekaHP.setBounds(550, 70, 200, 30);
+        IenaidniekaHP.setBounds(550, 55, 200, 30);
         cinasAktivsPanel.add(IenaidniekaHP);
         
         dialogaLabels = new JLabel();
         dialogaLabels.setForeground(Color.WHITE);
-        dialogaLabels.setBounds(300, 200, 200, 30);
+        dialogaLabels.setBounds(340, 200, 200, 30);
         cinasAktivsPanel.add(dialogaLabels);
         
         cinasInfo = new JLabel();
         cinasInfo.setForeground(Color.WHITE);
-        cinasInfo.setBounds(310, 415, 400, 30);
+        cinasInfo.setBounds(275, 435, 400, 30);
         cinasAktivsPanel.add(cinasInfo);
+        
+        JLabel PokemonaDEF = new JLabel("DEF: ");
+        PokemonaDEF.setForeground(Color.WHITE);
+        PokemonaDEF.setBounds(120, 55, 200, 30);
+        cinasAktivsPanel.add(PokemonaDEF);
+        
+        JLabel PretiniekaDEF = new JLabel("DEF: ");
+        PretiniekaDEF.setForeground(Color.WHITE);
+        PretiniekaDEF.setBounds(620, 55, 200, 30);
+        cinasAktivsPanel.add(PretiniekaDEF);
+        
+        JLabel PokemonaLVL = new JLabel("LVL: ");
+        PokemonaLVL.setForeground(Color.WHITE);
+        PokemonaLVL.setBounds(170, 55, 200, 30);
+        cinasAktivsPanel.add(PokemonaLVL);
+        
+        JLabel PretiniekaLVL = new JLabel("LVL: ");
+        PretiniekaLVL.setForeground(Color.WHITE);
+        PretiniekaLVL.setBounds(670, 55, 200, 30);
+        cinasAktivsPanel.add(PretiniekaLVL);
         
         
         
         // ======== Pokemon bildes ========
+        
         
         // Bildes izmēri
         int platums = 320, augstums = 322;
@@ -254,66 +298,123 @@ public class Pokedatnis {
         
         
      // ============= POGA Izveide ==============
-        JButton NokertPoga = new JButton("Noķert");
-        NokertPoga.setBounds(300, 200, 200, 50);
+        NokertPoga = new JButton("Noķert (100$)");
+        NokertPoga.setBounds(320, 200, 160, 40);
+        if(nauda >= 100) {
+        NokertPoga.setForeground(Color.GREEN);
+        }
+        
+        NokertPoga.setForeground(Color.GREEN);
+        NokertPoga.setBackground(Color.BLACK);
+        NokertPoga.setBorderPainted(true);
+        NokertPoga.setFocusPainted(false);
         NokertPanel.add(NokertPoga);
         
         
         JButton OkPoga = new JButton("OK");
         OkPoga.setBounds(365, 250, 65, 25);
+        OkPoga.setBackground(Color.BLACK);
+        OkPoga.setForeground(Color.WHITE);
+        OkPoga.setBorderPainted(true);
+        OkPoga.setFocusPainted(false);
         NokertPanel.add(OkPoga);
         OkPoga.setVisible(false);
         
         
         JButton NokertPanelPoga = new JButton("Noķert pokemonus");
-        NokertPanelPoga.setBounds(300, 125, 200, 50);
+        NokertPanelPoga.setBounds(320, 300, 160, 50);
+        NokertPanelPoga.setBackground(Color.BLACK);
+        NokertPanelPoga.setForeground(Color.WHITE);
+        NokertPanelPoga.setBorderPainted(true);
+        NokertPanelPoga.setFocusPainted(false);
         sakumsPanel.add(NokertPanelPoga);
         
        
-        JButton CinasPoga = new JButton("Cīņas");
-        CinasPoga.setBounds(300, 200, 200, 50);
+        JButton CinasPoga = new JButton("CĪŅAS");
+        CinasPoga.setBounds(320, 150, 160, 50);
+        CinasPoga.setBackground(Color.BLACK);
+        CinasPoga.setForeground(Color.WHITE);
+        CinasPoga.setBorderPainted(true);
+        CinasPoga.setFocusPainted(false);
         sakumsPanel.add(CinasPoga);
         
         
+        
         JButton PokemoniPoga = new JButton("Mani pokemoni");
-        PokemoniPoga.setBounds(300, 275, 200, 50);
+        PokemoniPoga.setBounds(320, 225, 160, 50);
+        PokemoniPoga.setBackground(Color.BLACK);
+        PokemoniPoga.setForeground(Color.WHITE);
+        PokemoniPoga.setBorderPainted(true);
+        PokemoniPoga.setFocusPainted(false);
         sakumsPanel.add(PokemoniPoga);
 
         
-        JButton SakumaPoga = new JButton("Atpakaļ uz sākumu");
-        SakumaPoga.setBounds(300, 400, 200, 50);
+        JButton SakumaPoga = new JButton("Atpakaļ");
+        SakumaPoga.setBounds(350, 470, 100, 35);
+        SakumaPoga.setBackground(Color.BLACK);
+        SakumaPoga.setForeground(Color.WHITE);
+        SakumaPoga.setBorderPainted(true);
+        SakumaPoga.setFocusPainted(false);
         cinasPanel.add(SakumaPoga);
         
         // Uzbrukt poga
-        JButton UzbruktPoga = new JButton("Uzbrukt");
-        UzbruktPoga.setBounds(300, 480, 200, 50);
+        JButton UzbruktPoga = new JButton("UZBRUKT");
+        UzbruktPoga.setBounds(100, 480, 200, 50);
+        UzbruktPoga.setBackground(Color.BLACK);
+        UzbruktPoga.setForeground(Color.WHITE);
+        UzbruktPoga.setBorderPainted(true);
+        UzbruktPoga.setFocusPainted(false);
         cinasAktivsPanel.add(UzbruktPoga);
         
-        // Run poga
-        JButton RunatPoga = new JButton("Runāt");
-        RunatPoga.setBounds(400, 480, 200, 50);
+        // Runāt poga
+        JButton RunatPoga = new JButton("RUNĀT");
+        RunatPoga.setBounds(300, 480, 200, 50);
+        RunatPoga.setBackground(Color.BLACK);
+        RunatPoga.setForeground(Color.WHITE);
+        RunatPoga.setBorderPainted(true);
+        RunatPoga.setFocusPainted(false);
         cinasAktivsPanel.add(RunatPoga);
         
-        // Run poga
-        JButton NekoPoga = new JButton("Neko nedarīt");
+        // neko nedarīt poga
+        JButton NekoPoga = new JButton("NEKO NEDARĪT");
         NekoPoga.setBounds(500, 480, 200, 50);
+        NekoPoga.setBackground(Color.BLACK);
+        NekoPoga.setForeground(Color.WHITE);
+        NekoPoga.setBorderPainted(true);
+        NekoPoga.setFocusPainted(false);
         cinasAktivsPanel.add(NekoPoga);
         
-        JButton SakumaPoga2 = new JButton("Atpakaļ uz sākumu");
-        SakumaPoga2.setBounds(300, 400, 200, 50);
+        JButton SakumaPoga2 = new JButton("Atpakaļ");
+        SakumaPoga2.setBounds(350, 400, 100, 35);
+        SakumaPoga2.setBackground(Color.BLACK);
+        SakumaPoga2.setForeground(Color.WHITE);
+        SakumaPoga2.setBorderPainted(true);
+        SakumaPoga2.setFocusPainted(false);
         PokemoniPanel.add(SakumaPoga2);
         
         
-        JButton SakumaPoga3 = new JButton("Atpakaļ uz sākumu");
-        SakumaPoga3.setBounds(300, 400, 200, 50);
+        JButton SakumaPoga3 = new JButton("Atpakaļ");
+        SakumaPoga3.setBounds(350, 400, 100, 35);
+        SakumaPoga3.setBackground(Color.BLACK);
+        SakumaPoga3.setForeground(Color.WHITE);
+        SakumaPoga3.setBorderPainted(true);
+        SakumaPoga3.setFocusPainted(false);
         NokertPanel.add(SakumaPoga3);
         
         JButton CinitiesPoga = new JButton("Cīnīties");
-        CinitiesPoga.setBounds(300, 300, 200, 50);
+        CinitiesPoga.setBounds(300, 400, 200, 50);
+        CinitiesPoga.setBackground(Color.BLACK);
+        CinitiesPoga.setForeground(Color.WHITE);
+        CinitiesPoga.setBorderPainted(true);
+        CinitiesPoga.setFocusPainted(false);
         cinasPanel.add(CinitiesPoga);
         
         JButton arstetPoga = new JButton("Ārstēt (" + 25 + "$)");
         arstetPoga.setBounds(50, 350, 200, 40);
+        arstetPoga.setBackground(Color.GREEN);
+        arstetPoga.setForeground(Color.WHITE);
+        arstetPoga.setBorderPainted(true);
+        arstetPoga.setFocusPainted(false);
         PokemoniPanel.add(arstetPoga);
 
         
@@ -325,7 +426,12 @@ public class Pokedatnis {
         
         
         
+        
+        //--------------------------------------------------------------------------------------------------------------------------------
         // <===================================== LOĢIKA ====================================>
+        //--------------------------------------------------------------------------------------------------------------------------------
+        
+        
         
         ArrayList<Pokemons> Pokemoni = new ArrayList<>();
         // Visi iespējamie pokemoni ko var noķert
@@ -333,15 +439,33 @@ public class Pokedatnis {
         visiIespPokemoni.add(new UdensP(18, 32, 0, 14, 32, "Squirtle", "/bildes/squirtle.png", "Ūdens", "Hello"));
         visiIespPokemoni.add(new ElektriskaisP(19, 27, 0, 12, 27, "Electabuzz", "/bildes/electabuzz.png", "Elektrisks", "Pikachu"));
 
-
+        // Sākuma pokemons
         Pokemons sakumaPokemons = new ElektriskaisP(23, 21, 0, 6, 21, "Pikachu", "/bildes/pikachu.png", "Elektrisks", "Zap zap");
-
         Pokemoni.add(sakumaPokemons);     
         
         
-        // ======== POGAS LOĢIKA =========
+        
+        
+        
+        //--------------------------------------------------------------------------------------------------------------------------------
+        // ================== POGAS LOĢIKA ====================
+        //--------------------------------------------------------------------------------------------------------------------------------
+        
+        
+
         
         NokertPoga.addActionListener(e -> {
+        	
+        	if (nauda < 100) {
+                JOptionPane.showMessageDialog(frame, "Nav pietiekami daudz naudas!");
+                return;
+            }
+
+            // atņem naudu par samaksu
+            nauda -= 100;
+            
+            updateNaudaLabel(naudaLabel);
+            updateNaudaLabel(naudaLabel2);
         	
         	Pokemons p = Catch(visiIespPokemoni);
         	
@@ -355,6 +479,14 @@ public class Pokedatnis {
             nokerts.setVisible(true);
             OkPoga.setVisible(true);
             NokertPoga.setVisible(false);
+            
+         // Maina krāsu noķert pogai ja nauda ir zem 100.
+            if(nauda >= 100) {
+                NokertPoga.setForeground(Color.GREEN);
+                }
+                if(nauda < 100) {
+                	NokertPoga.setForeground(Color.RED);
+                }
             return;
         }
         	
@@ -377,6 +509,14 @@ public class Pokedatnis {
             
             OkPoga.setVisible(true);
             NokertPoga.setVisible(false);
+            
+            // Maina krāsu noķert pogai ja nauda ir zem 100.
+            if(nauda >= 100) {
+                NokertPoga.setForeground(Color.GREEN);
+                }
+                if(nauda < 100) {
+                	NokertPoga.setForeground(Color.RED);
+                }
             });
 
         
@@ -418,10 +558,14 @@ public class Pokedatnis {
             IenaidniekaPokemons = randomIenaidnieks(visiIespPokemoni);
 
             PokemonaVards.setText("Tu: " + SpeletajaPokemons.getVards());
-            IenaidniekaVards.setText("Ienaidnieks: " + IenaidniekaPokemons.getVards());
+            IenaidniekaVards.setText("Pretinieks: " + IenaidniekaPokemons.getVards());
 
             PokemonaHP.setText("HP: " + SpeletajaPokemons.getHP()+"/"+SpeletajaPokemons.getMaxHP());
             IenaidniekaHP.setText("HP: " + IenaidniekaPokemons.HP+"/"+IenaidniekaPokemons.getMaxHP());
+            PokemonaDEF.setText("DEF: " + SpeletajaPokemons.getDefense());
+            PretiniekaDEF.setText("DEF: " + IenaidniekaPokemons.getDefense());
+            PokemonaLVL.setText("LVL: " + SpeletajaPokemons.getLevel());
+            PretiniekaLVL.setText("LVL: " + IenaidniekaPokemons.getLevel());
             
             if (SpeletajaPokemons.getBilde() != null)
                 speletajaBilde.setIcon(new ImageIcon(Pokedatnis.class.getResource(SpeletajaPokemons.getBilde())));
@@ -439,10 +583,26 @@ public class Pokedatnis {
         });
         
         SakumaPoga.addActionListener(e -> {
+        	// Maina krāsu noķert pogai ja nauda ir zem 100.
+            if(nauda >= 100) {
+                NokertPoga.setForeground(Color.GREEN);
+                }
+                if(nauda < 100) {
+                	NokertPoga.setForeground(Color.RED);
+                }
+                
             cardLayout.show(galvenaisPanel, "sakums");
         });
         
         SakumaPoga2.addActionListener(e -> {
+        	// Maina krāsu noķert pogai ja nauda ir zem 100.
+            if(nauda >= 100) {
+                NokertPoga.setForeground(Color.GREEN);
+                }
+                if(nauda < 100) {
+                	NokertPoga.setForeground(Color.RED);
+                }
+                
             cardLayout.show(galvenaisPanel, "sakums");
         });
         
@@ -452,6 +612,14 @@ public class Pokedatnis {
         	OkPoga.setVisible(false);
         	nokertBilde.setVisible(false);
         	
+        	// Maina krāsu noķert pogai ja nauda ir zem 100.
+            if(nauda >= 100) {
+                NokertPoga.setForeground(Color.GREEN);
+                }
+                if(nauda < 100) {
+                	NokertPoga.setForeground(Color.RED);
+                }
+                
             cardLayout.show(galvenaisPanel, "sakums");
         });
         
@@ -573,6 +741,7 @@ public class Pokedatnis {
                     // atjauno labeli
                     infoHP.setText("HP: " + p.getHP() + "/" + p.getMaxHP());
                     updateNaudaLabel(naudaLabel);
+                    updateNaudaLabel(naudaLabel2);
 
                     JOptionPane.showMessageDialog(frame, p.getVards() + " tika pilnībā ārstēts!");
                 }
@@ -589,7 +758,12 @@ public class Pokedatnis {
         }
         
         
-     // ================ DROPDOWN Pokemoni ====================
+        
+        
+        //--------------------------------------------------------------------------------------------------------------------------------
+        // ================ DROPDOWN Pokemoni ====================
+        //--------------------------------------------------------------------------------------------------------------------------------
+        
         
         pokemonDropdown.addActionListener(e -> {
             String izveletaisPokemons = (String)pokemonDropdown.getSelectedItem();
@@ -645,7 +819,12 @@ public class Pokedatnis {
     }
 	
 	
+	
+	
+	
+	//--------------------------------------------------------------------------------------------------------------------------------
 	// ============================= Metodes ===================================
+	//--------------------------------------------------------------------------------------------------------------------------------
 	
 	
 	
@@ -766,11 +945,20 @@ public class Pokedatnis {
             int balva = 50;
             nauda += balva;
             updateNaudaLabel(naudaLabel);
+            updateNaudaLabel(naudaLabel2);
 
             JOptionPane.showMessageDialog(frame, "Tu uzvarēji! Tu ieguvi " + balva + "$");
             cardLayout.show(galvenaisPanel, "sakums");
             StopMuzika("src/audio/battle.wav");
             MuzikaMain("src/audio/main.wav");
+            
+            // Maina krāsu noķert pogai ja nauda ir zem 100.
+            if(nauda >= 100) {
+                NokertPoga.setForeground(Color.GREEN);
+                }
+                if(nauda < 100) {
+                	NokertPoga.setForeground(Color.RED);
+                }
             return;
         }
             // Zaudē
@@ -779,7 +967,16 @@ public class Pokedatnis {
                 cardLayout.show(galvenaisPanel, "sakums");
                 StopMuzika("src/audio/battle.wav");
                 MuzikaMain("src/audio/main.wav");
+                
+                // Maina krāsu noķert pogai ja nauda ir zem 100.
+                if(nauda >= 100) {
+                    NokertPoga.setForeground(Color.GREEN);
+                    }
+                    if(nauda < 100) {
+                    	NokertPoga.setForeground(Color.RED);
+                    }
             }
+        
         }
         
 	
@@ -792,7 +989,14 @@ public class Pokedatnis {
 	}
 	
 	
+	
+	
+	//--------------------------------------------------------------------------------------------------------------------------------
 	// ============= SKAŅAS METODES ==============
+	//--------------------------------------------------------------------------------------------------------------------------------
+	
+	
+	
 	
 	public static void MuzikaMain(String cels){
 	try {
@@ -831,7 +1035,13 @@ public class Pokedatnis {
     }
 	
 	
+	
+	
+	//--------------------------------------------------------------------------------------------------------------------------------
 	// ======== AI Ienaidnieks metode ============
+	//--------------------------------------------------------------------------------------------------------------------------------
+	
+	
 	
 	public static void IenaidnieksAI() {
 		
