@@ -31,6 +31,11 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+//-------------------------------------------------------------
+//                     Programmas versija 0.8
+// 				Programma darbojas tikai 1 sessijā
+//--------------------------------------------------------------
+
 public class Pokedatnis {
 	
 	static Random rand = new Random();
