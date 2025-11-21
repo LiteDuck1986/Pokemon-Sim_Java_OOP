@@ -26,7 +26,7 @@ public abstract class Pokemons {
 				
 			}
 			
-			// Abstrakta metode (varbūt nakotnē pagaidām es nevaru izdomāt.)
+			// Abstrakta metode
 			public abstract boolean SpecialATK();
 			
 			//=============== GETTER METODES ==================

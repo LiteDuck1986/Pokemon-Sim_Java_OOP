@@ -465,6 +465,7 @@ public class Pokedatnis {
         ArrayList<Pokemons> visiIespPokemoni = new ArrayList<>();
         visiIespPokemoni.add(new UdensP(18, 32, 0, 14, 32, "Squirtle", "/bildes/squirtle.png", "Ūdens", "Squirt! Squirt! Man patīk!"));
         visiIespPokemoni.add(new ElektriskaisP(19, 27, 0, 12, 27, "Electabuzz", "/bildes/electabuzz.png", "Elektrisks", "Zap! Zap! Zap!"));
+        visiIespPokemoni.add(new ElektriskaisP(16, 26, 0, 15, 26, "Smokarino", "/bildes/electabuzz.png", "Elektrisks", "Puff! Puff!"));
 
         // Sākuma pokemons
         Pokemons sakumaPokemons = new ElektriskaisP(23, 21, 0, 6, 21, "Pikachu", "/bildes/pikachu.png", "Elektrisks", "PIIKAAAAAAA");
